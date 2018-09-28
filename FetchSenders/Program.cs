@@ -4,25 +4,22 @@ using System.Dynamic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Campoint.Visitx.API.Samples.Credentials;
 using Newtonsoft.Json;
 
 namespace Campoint.Visitx.API.Samples.FetchSenders
 {
     class Program
     {
-        public static string AccessKey = "";
-
         public static async Task Main(string[] args)
         {
-            var accessKeyQueryParam = "accessKey=" + AccessKey;
-         
             using (var client = new HttpClient())
             {
-                var senders = await FetchSenders(client, accessKeyQueryParam);
+                var senders = await FetchSenders(client);
                 Console.WriteLine("Fetched {0} senders", senders.Count);
 
                 var senderId = (int)senders.First().UserID;
-                var senderSedCards = await GetSenderSedCards(client, senderId, accessKeyQueryParam);
+                var senderSedCards = await GetSenderSedCards(client, senderId);
                 var picturesInSedCards = senderSedCards.SelectMany<dynamic, dynamic>(sedCard => sedCard.Pictures).ToList();
                 
                 Console.Write($"Sender {senderId} has {senderSedCards.Count()} sed cards with {picturesInSedCards.Count()} pictures in total.");
@@ -31,14 +28,14 @@ namespace Campoint.Visitx.API.Samples.FetchSenders
             }
         }
 
-        private static async Task<IList<dynamic>> GetSenderSedCards(HttpClient client, int senderId, string accessKeyQueryParam)
+        private static async Task<IList<dynamic>> GetSenderSedCards(HttpClient client, int senderId)
         {
-            var sedCardsResponse = await client.GetAsync($"https://meta.visit-x.net/VXREST.svc/json/senders/{senderId}/sedcards?{accessKeyQueryParam}");
+            var sedCardsResponse = await client.GetAsync($"https://meta.visit-x.net/VXREST.svc/json/senders/{senderId}/sedcards?{ApiCredentials.AccessKeyQueryParam}");
             var sedCardsContent = await sedCardsResponse.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject < List <dynamic >> (sedCardsContent);
         }
 
-        private static async Task<List<dynamic>> FetchSenders(HttpClient client, string accessKeyQueryParam)
+        private static async Task<List<dynamic>> FetchSenders(HttpClient client)
         {
             var next = 0;
             const int chunkSize = 1000;
@@ -48,7 +45,7 @@ namespace Campoint.Visitx.API.Samples.FetchSenders
             do
             {
                 var sendersResponse = await client.GetAsync("https://meta.visit-x.net/VXREST.svc/json/senders?skip=" + next +
-                                                            " &take= " + chunkSize + "&" + accessKeyQueryParam);
+                                                            " &take= " + chunkSize + "&" + ApiCredentials.AccessKeyQueryParam);
                 var sendersResponseContent = await sendersResponse.Content.ReadAsStringAsync();
 
                 var currentSenders = JsonConvert.DeserializeObject<List<dynamic>>(sendersResponseContent);

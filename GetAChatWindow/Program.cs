@@ -6,16 +6,13 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Campoint.Visitx.API.Samples.Credentials;
 using Newtonsoft.Json;
 
 namespace Campoint.Visitx.API.Samples.GetAChatWindow
 {
     class Program
     {
-        public static string AccessKey = "";
-        public static string ApiUserName = "";
-        public static string ApiPassword = "";
-
         static async Task Main(string[] args)
         {
             // return the first sender that gets onine after the program has started
@@ -32,7 +29,7 @@ namespace Campoint.Visitx.API.Samples.GetAChatWindow
 
         private static async Task<dynamic> GetAvailableChatPartner()
         {
-            var webSocketUri = new Uri($"wss://data.campoints.net/?accessKey={AccessKey}");
+            var webSocketUri = new Uri($"wss://data.campoints.net/?{ApiCredentials.AccessKeyQueryParam}");
 
             // connect to the websocket
             using (var ws = await ConnectWebSocket(webSocketUri, CancellationToken.None))
@@ -62,7 +59,7 @@ namespace Campoint.Visitx.API.Samples.GetAChatWindow
             {
                 // set the authorization header here instead of using alternative methods as they might lead to suboptimal behavior
                 // see https://stackoverflow.com/questions/25761214/why-would-my-rest-service-net-clients-send-every-request-without-authentication
-                var authentication = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{ApiUserName}:{ApiPassword}"));
+                var authentication = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{ApiCredentials.UserName}:{ApiCredentials.Password}"));
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authentication);
 
                 var uri = $"https://visit-x.net/interfaces/content/start.php?userID={senderId}";

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetAChatWindow", "GetAChatW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateProfile", "TranslateProfile\TranslateProfile.csproj", "{57CFF0F9-E8D4-43F8-8160-8A1F817C24DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Credentials", "Credentials\Credentials.csproj", "{8E8F6CCA-8879-4340-99F2-B6C85915EFA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{57CFF0F9-E8D4-43F8-8160-8A1F817C24DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57CFF0F9-E8D4-43F8-8160-8A1F817C24DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57CFF0F9-E8D4-43F8-8160-8A1F817C24DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E8F6CCA-8879-4340-99F2-B6C85915EFA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E8F6CCA-8879-4340-99F2-B6C85915EFA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E8F6CCA-8879-4340-99F2-B6C85915EFA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E8F6CCA-8879-4340-99F2-B6C85915EFA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

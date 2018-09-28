@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using Campoint.Visitx.API.Samples.Credentials;
 using Newtonsoft.Json;
 
-namespace TranslateProfile
+namespace Campoint.Visitx.API.Samples.TranslateProfile
 {
     class Program
     {
-        public static string AccessKeyParam = "accessKey=";
-
         static async Task Main(string[] args)
         {
             using (var client = new HttpClient())
@@ -84,7 +81,7 @@ namespace TranslateProfile
         
         private static async Task<Dictionary<string, string>> GetTranslations(HttpClient client, string languageCode, string translationKey)
         {
-            var translationsResponse = await client.GetAsync($"https://meta.visit-x.net/VXREST.svc/json/translations/{translationKey}/{languageCode}?{AccessKeyParam}");
+            var translationsResponse = await client.GetAsync($"https://meta.visit-x.net/VXREST.svc/json/translations/{translationKey}/{languageCode}?{ApiCredentials.AccessKeyQueryParam}");
             var translationsContent = await translationsResponse.Content.ReadAsStringAsync();
             var translations = JsonConvert.DeserializeObject<List<dynamic>>(translationsContent);
             return translations.ToDictionary(j => (string)j.Index, j => (string)j.Value);
@@ -94,7 +91,7 @@ namespace TranslateProfile
         {
             var senderId = sender.UserID;
 
-            var profileResponse = await client.GetAsync($"https://meta.visit-x.net/VXREST.svc/json/senders/{senderId}/profile?{AccessKeyParam}");
+            var profileResponse = await client.GetAsync($"https://meta.visit-x.net/VXREST.svc/json/senders/{senderId}/profile?{ApiCredentials.AccessKeyQueryParam}");
             var profileContent = await profileResponse.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<dynamic>(profileContent);
@@ -102,7 +99,7 @@ namespace TranslateProfile
 
         private static async Task<dynamic> FetchFirstSender(HttpClient client)
         {
-            var sendersResponse = await client.GetAsync("https://meta.visit-x.net/VXREST.svc/json/senders?skip=0&take=1&" + AccessKeyParam);
+            var sendersResponse = await client.GetAsync("https://meta.visit-x.net/VXREST.svc/json/senders?skip=0&take=1&" + ApiCredentials.AccessKeyQueryParam);
             var sendersResponseContent = await sendersResponse.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<List<dynamic>>(sendersResponseContent).Single();

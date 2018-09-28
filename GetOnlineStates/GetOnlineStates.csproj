@@ -54,5 +54,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Credentials\Credentials.csproj">
+      <Project>{8E8F6CCA-8879-4340-99F2-B6C85915EFA4}</Project>
+      <Name>Credentials</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

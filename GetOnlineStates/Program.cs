@@ -6,17 +6,16 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Campoint.Visitx.API.Samples.Credentials;
 using Newtonsoft.Json;
 
 namespace Campoint.Visitx.API.Samples.GetOnlineStates
 {
     class Program
     {
-        public static string AccessKey = "";
-
         public static async Task Main(string[] args)
         {
-            var webSocketUri = new Uri($"wss://data.campoints.net/?accessKey={AccessKey}");
+            var webSocketUri = new Uri($"wss://data.campoints.net/?{ApiCredentials.AccessKeyQueryParam}");
 
             using (var clientWs = new ClientWebSocket())
             { 
