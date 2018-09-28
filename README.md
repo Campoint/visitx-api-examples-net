@@ -1,1 +1,1 @@
-# Examples in C# for the VisitX API
+# Examples in C# for the Visit-X API
